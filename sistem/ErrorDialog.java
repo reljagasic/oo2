@@ -9,7 +9,7 @@ import java.awt.event.WindowEvent;
 public class ErrorDialog extends Dialog {
 
     public ErrorDialog(Frame parent, String message) {
-        super(parent,"Error!", false);
+        super(parent,"Error!", true);
         Label labelaGreska = new Label(message, Label.CENTER);
         labelaGreska.setForeground(Color.RED);
         setLayout(new BorderLayout(10, 10));
@@ -25,8 +25,27 @@ public class ErrorDialog extends Dialog {
         setLocationRelativeTo(parent);
         setVisible(true);
     }
+
+    public ErrorDialog(Dialog parent, String message) {
+        super(parent,"Error!", true);
+        Label labelaGreska = new Label(message, Label.CENTER);
+        labelaGreska.setForeground(Color.RED);
+        setLayout(new BorderLayout(10, 10));
+        add(labelaGreska, BorderLayout.CENTER);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+        setSize(450, 90);
+        setResizable(true);
+        pack();
+        setLocationRelativeTo(parent);
+        setVisible(true);
+    }
+
     public ErrorDialog(Frame parent, String message, Timer timer) {
-        super(parent,"Error!", false);
+        super(parent,"Error!", true);
         Label labelaGreska = new Label(message, Label.CENTER);
         labelaGreska.setForeground(Color.RED);
         setLayout(new BorderLayout(10, 10));

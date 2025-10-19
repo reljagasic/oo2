@@ -23,7 +23,7 @@ public class Sistem extends Frame {
                 return a;
             }
         }
-        throw new IllegalAirportDataException("Aerodrom sa kodom" + kod + "nije u sistemu");
+        throw new IllegalAirportDataException("Aerodrom sa kodom " + kod + " nije u sistemu");
     }
 
     private void resetTimer(){
@@ -165,25 +165,24 @@ public class Sistem extends Frame {
             try {
                 List<Aerodrom> ucitaniAerodromi = FileSistem.ucitajAerodrome(this);
                 for (Aerodrom a : ucitaniAerodromi) {
-                    dodajAerodrom(a); // koristi tvoj metod koji dodaje u sistem i proverava duplikate
+                    dodajAerodrom(a);
                 }
-            } catch (IOException | IllegalDialogInputException ex) {
-                throw new RuntimeException(ex);
+            } catch (IllegalDialogInputException | IOException ex) {
+                new ErrorDialog(this, ex.getMessage());
             }
         });
         importLetovi.addActionListener(e -> {
             try {
                 List<Let> ucitaniLetovi = FileSistem.ucitajLetove(aerodromi, this);
                 for (Let a : ucitaniLetovi) {
-                    dodajLet(a); // koristi tvoj metod koji dodaje u sistem i proverava duplikate
+                    dodajLet(a);
                 }
             } catch (IOException | IllegalDialogInputException ex) {
-                throw new RuntimeException(ex);
+                new ErrorDialog(this, ex.getMessage());
             } catch (Exception ex) {
-                throw new RuntimeException(ex);
+                new ErrorDialog(this, ex.getMessage());
             }
         });
-        // ovo ovde ne valja za sad gledaj samo import
         exportAerodromi.addActionListener(e -> {
             try {
                 FileSistem.ispisiAerodrome(aerodromi);
@@ -227,11 +226,5 @@ public class Sistem extends Frame {
     public static void main(String[] args) {
         Sistem sistem = new Sistem();
     }
-
-    // TO:DO
-    // citanje i upis u csv
-    // prikaz letova na mapi, nov prozor
-    // tajmer sa snimka dodati da broji, i da reaguje na mouseclicked blabla
-    
 
 }

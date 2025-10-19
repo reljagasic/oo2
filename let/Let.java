@@ -82,7 +82,7 @@ public class Let {
     public boolean equals(Object o) {
         if (!(o instanceof Let)) return false;
         Let let = (Let) o;
-        return vremePoletanja == let.vremePoletanja && trajanjeLeta == let.trajanjeLeta && Objects.equals(pocetniAerodrom, let.pocetniAerodrom) && Objects.equals(krajnjiAerodrom, let.krajnjiAerodrom);
+        return vremePoletanja.equals(let.vremePoletanja) && trajanjeLeta == let.trajanjeLeta && Objects.equals(pocetniAerodrom, let.pocetniAerodrom) && Objects.equals(krajnjiAerodrom, let.krajnjiAerodrom);
     }
 
     @Override

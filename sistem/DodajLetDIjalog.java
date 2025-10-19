@@ -82,10 +82,10 @@ public class DodajLetDIjalog extends Dialog {
             parentSistemFrame.dodajLet(noviLet);
             dispose();
         }catch (DateTimeParseException e){
-            new ErrorDialog(parentSistemFrame, "Pogresan format vremena poletanja, HH:mm");
+            new ErrorDialog(this, "Pogresan format vremena poletanja, HH:mm");
         }
         catch(Exception e){
-            new ErrorDialog(parentSistemFrame, e.getMessage());
+            new ErrorDialog(this, e.getMessage());
         }
     }
 

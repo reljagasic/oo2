@@ -18,12 +18,12 @@ public class FileSistem {
         List<Aerodrom> aerodromi = new ArrayList<>();
         File fajl = new File("aerodromi.txt");
 
-        System.out.println("Trenutni direktorijum: " + new File(".").getAbsolutePath());
-        System.out.println("Da li fajl postoji: " + fajl.exists());
+//        System.out.println("Trenutni direktorijum: " + new File(".").getAbsolutePath());
+//        System.out.println("Da li fajl postoji: " + fajl.exists());
 
         if (!fajl.exists()) {
             new ErrorDialog(parentSistem, "Fajl " + fajl.getAbsolutePath() + " nije pronadjen!");
-            return aerodromi;
+            return new ArrayList<>();
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(fajl))) {
@@ -48,19 +48,17 @@ public class FileSistem {
                     throw new IOException("Greska u liniji " + brojLinija + ": koordinate nisu brojevi");
                 }
 
-                try {
-                    Aerodrom a = new Aerodrom(naziv, kod, x, y);
-                    aerodromi.add(a);
-                } catch (IllegalAirportDataException e) {
-                    throw new IOException("Greska u liniji " + brojLinija + ": " + e.getMessage());
-                }
+                Aerodrom a = new Aerodrom(naziv, kod, x, y);
+                aerodromi.add(a);
+
             }
             if (brojLinija == 0) {
                 throw new IOException("Fajl " + fajl.getAbsolutePath() + " je prazan");
             }
 
-        } catch (IOException e) {
+        } catch (IOException | IllegalAirportDataException e) {
             new ErrorDialog(parentSistem, e.getMessage());
+            return new ArrayList<>();
         }
 
         return aerodromi;
@@ -75,7 +73,7 @@ public class FileSistem {
 
         if (!fajl.exists()) {
             new ErrorDialog(parentSistem, "Fajl " + fajl.getAbsolutePath() + " nije pronadjen!");
-            return letovi;
+            return new ArrayList<>();
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(fajl))) {
@@ -99,27 +97,19 @@ public class FileSistem {
                 Aerodrom pocetni, krajnji;
                 int trajanjeLetaMinuti;
                 LocalTime vremePoletanjaLocalTime;
-                try {
-                    try{
-                        trajanjeLetaMinuti = Integer.parseInt(trajanjeLeta);
-                    } catch (NumberFormatException e) {
-                        new ErrorDialog(parentSistem, "Greska u liniji " + brojLinija + ": neispravan format trajanja leta, mora biti ceo broj");
-                        return letovi;
-                    }
-                    pocetni = dohvatiAerodromPoKodu(pocetniAerodrom, postojeciAerodromi);
-                    krajnji = dohvatiAerodromPoKodu(krajnjiAerodrom, postojeciAerodromi);
-                    Let noviLet = new Let(pocetni, krajnji, vremePoletanja, trajanjeLetaMinuti);
-                    letovi.add(noviLet);
-                } catch (DateTimeParseException e){
-                    new ErrorDialog(parentSistem, "Pogresan format vremena poletanja, HH:mm");
-                    return letovi;
+                try{
+                    trajanjeLetaMinuti = Integer.parseInt(trajanjeLeta);
+                } catch (NumberFormatException e) {
+                    throw new IOException("Greska u liniji " + brojLinija + ": neispravan format trajanja leta, mora biti ceo broj");
                 }
-                catch (Exception e) {
-                    throw new Exception("Greska u liniji " + brojLinija + ": " + e.getMessage());
-                }
+                pocetni = dohvatiAerodromPoKodu(pocetniAerodrom, postojeciAerodromi);
+                krajnji = dohvatiAerodromPoKodu(krajnjiAerodrom, postojeciAerodromi);
+                Let noviLet = new Let(pocetni, krajnji, vremePoletanja, trajanjeLetaMinuti);
+                letovi.add(noviLet);
             }
         } catch (Exception e) {
             new ErrorDialog(parentSistem, e.getMessage());
+            return new ArrayList<>();
         }
 
         return letovi;
@@ -168,9 +158,6 @@ public class FileSistem {
         }
 
     }
-
-
-
 
 
 }

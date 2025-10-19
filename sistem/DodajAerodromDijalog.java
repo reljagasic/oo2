@@ -86,10 +86,10 @@ public class DodajAerodromDijalog extends Dialog {
             parentSistemFrame.dodajAerodrom(noviAerodrom);
             dispose();
         } catch (IllegalAirportDataException | IllegalDialogInputException e){
-            new ErrorDialog(parentSistemFrame, e.getMessage());
+            new ErrorDialog(this, e.getMessage());
 
         } catch (Exception e) {
-            new ErrorDialog(parentSistemFrame, e.getMessage());
+            new ErrorDialog(this, e.getMessage());
         }
 
     }
