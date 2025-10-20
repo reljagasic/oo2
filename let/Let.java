@@ -7,6 +7,11 @@ import java.time.format.DateTimeParseException;
 import java.util.Objects;
 
 public class Let {
+    public enum tipLeta{
+        DOMACI,
+        MEDJUNARODNI
+    }
+    private tipLeta tip;
     private Aerodrom pocetniAerodrom;
     private Aerodrom krajnjiAerodrom;
     private LocalTime vremePoletanja;
@@ -19,6 +24,7 @@ public class Let {
         this.vremePoletanja = vremePoletanja;
         setTrajanjeLeta(trajanjeLeta);
         proveriAerodrome(pocetniAerodrom, krajnjiAerodrom);
+        this.tip = tipLeta.DOMACI;
     }
 
     public Let(Aerodrom pocetni, Aerodrom krajnji, String vremePoletanja, int trajanjeLeta) throws IllegalFlightDataException, DateTimeParseException {
@@ -27,6 +33,15 @@ public class Let {
         dodajVrenePoletenjaizStringa(vremePoletanja);
         proveriAerodrome(pocetni, krajnji);
         setTrajanjeLeta(trajanjeLeta);
+        this.tip = tipLeta.DOMACI;
+    }
+    public Let(Aerodrom pocetni, Aerodrom krajnji, String vremePoletanja, int trajanjeLeta, tipLeta l) throws IllegalFlightDataException, DateTimeParseException {
+        setPocetniAerodrom(pocetni);
+        setKrajnjiAerodrom(krajnji);
+        dodajVrenePoletenjaizStringa(vremePoletanja);
+        proveriAerodrome(pocetni, krajnji);
+        setTrajanjeLeta(trajanjeLeta);
+        this.tip = l;
     }
 
     public void dodajVrenePoletenjaizStringa(String vremePoletenja) throws DateTimeParseException {
@@ -96,5 +111,11 @@ public class Let {
         return this.vremePoletanja.plus(duration);
     }
 
+    public tipLeta getTip() {
+        return tip;
+    }
 
+    public void setTip(tipLeta tip) {
+        this.tip = tip;
+    }
 }

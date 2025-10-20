@@ -94,7 +94,7 @@ public class Sistem extends Frame {
         letovi.add(let);
         System.out.println("Dodat let: "+ let.toString());
         if(prikazLetovaPanel != null){
-            prikazLetovaPanel.osveziPanel();
+            prikazLetovaPanel.osveziPanel(this.letovi);
         }
         // prozor stoji u istom mestu sve vreme
         Point trenutnaLokacija = getLocation();
@@ -156,7 +156,7 @@ public class Sistem extends Frame {
         });
         Letovi.addActionListener(e -> {
             layout.show(cardContainer, "Letovi");
-            prikazLetovaPanel.osveziPanel();
+            prikazLetovaPanel.osveziPanel(this.letovi);
             pack();
             validate();
             resetTimer();
@@ -205,7 +205,7 @@ public class Sistem extends Frame {
         setResizable(true);
         setTitle("Sistem za kontrolu leta");
         populateWindow();
-        prikazLetovaPanel.osveziPanel();
+        prikazLetovaPanel.osveziPanel(this.letovi);
         timer = new Timer(this);
         timer.start();
         setupActivityListeners();
